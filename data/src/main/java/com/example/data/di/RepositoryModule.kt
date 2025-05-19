@@ -1,5 +1,6 @@
 package com.example.data.di
 
+import com.example.data.local.ArticleDao
 import com.example.data.network.ArticleService
 import com.example.data.repository.ArticleRepository
 import com.example.data.repository.ArticleRepositoryImpl
@@ -15,6 +16,6 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideRepository(articleService: ArticleService) : ArticleRepository =
-        ArticleRepositoryImpl(articleService)
+    fun provideRepository(articleService: ArticleService,articleDao: ArticleDao) : ArticleRepository =
+        ArticleRepositoryImpl(articleService,articleDao)
 }
