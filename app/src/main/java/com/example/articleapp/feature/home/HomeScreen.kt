@@ -1,5 +1,6 @@
 package com.example.articleapp.feature.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +41,8 @@ import com.example.data.local.ArticleEntity
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNavigateToDetails: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -77,7 +79,7 @@ fun HomeScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             items(currentState.articles) { article ->
-                                NewsCard(article)
+                                NewsCard(article,onNavigateToDetails,viewModel)
                             }
                         }
                     else
@@ -97,11 +99,14 @@ fun HomeScreen(
 }
 
 @Composable
-fun NewsCard(article: ArticleEntity) {
+fun NewsCard(article: ArticleEntity, onNavigateToDetails: () -> Unit,viewModel: HomeViewModel) {
     Card(
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().clickable {
+            viewModel.selectedArticle.value = article
+            onNavigateToDetails()
+        }
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             article.apply {
