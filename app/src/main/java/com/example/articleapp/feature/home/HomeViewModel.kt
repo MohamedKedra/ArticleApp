@@ -1,7 +1,9 @@
 package com.example.articleapp.feature.home
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.data.local.ArticleEntity
 import com.example.data.repository.ArticleRepository
 import com.example.data.utils.ConnectionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +21,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableStateFlow<ArticleState>(ArticleState.Idle)
     val state: StateFlow<ArticleState> = _state.asStateFlow()
+    var selectedArticle = mutableStateOf<ArticleEntity?>(null)
 
     fun onEvent(event: ArticleEvent) {
         when (event) {

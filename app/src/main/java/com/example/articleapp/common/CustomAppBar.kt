@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
 package com.example.articleapp.common
 
@@ -29,7 +29,7 @@ fun CustomAppBar(
             actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
         ),
         actions = {
-            IconButton(onClick = {
+            if (!hasBack) IconButton(onClick = {
                 onClicked()
             }) {
                 Icon(Icons.Default.Refresh, contentDescription = "refresh")

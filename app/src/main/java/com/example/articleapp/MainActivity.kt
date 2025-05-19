@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.articleapp.feature.home.HomeScreen
+import com.example.articleapp.navigation.ArticleNavGraph
 import com.example.articleapp.ui.theme.ArticleAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ArticleAppTheme {
-                HomeScreen()
+                ArticleNavGraph()
             }
         }
     }
