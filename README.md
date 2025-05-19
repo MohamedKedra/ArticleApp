@@ -25,3 +25,4 @@ This is a simple Android app built with Kotlin, Jetpack Compose, and MVI archite
 ## Setup
 
 1. Clone the repo:
+2. Master Branch is up to date 
