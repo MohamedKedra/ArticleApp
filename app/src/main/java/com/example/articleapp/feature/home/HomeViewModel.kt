@@ -4,8 +4,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.local.ArticleEntity
-import com.example.data.repository.ArticleRepository
 import com.example.data.utils.ConnectionManager
+import com.example.domain.getCachedArticles.GetCachedArticlesUseCase
+import com.example.domain.getRemoteArticles.GetRemoteArticlesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val articleRepository: ArticleRepository,
+    private val getRemoteArticlesUseCase: GetRemoteArticlesUseCase,
+    private val getCachedArticlesUseCase: GetCachedArticlesUseCase,
     private val connectionManager: ConnectionManager
 ) : ViewModel() {
     private val _state = MutableStateFlow<ArticleState>(ArticleState.Idle)
@@ -34,13 +36,13 @@ class HomeViewModel @Inject constructor(
             _state.value = ArticleState.Loading
             if (connectionManager.isNetworkAvailable) {
                 try {
-                    val articles = articleRepository.getRemoteList()
+                    val articles = getRemoteArticlesUseCase.invoke()
                     _state.value = ArticleState.Success(articles)
                 } catch (e: Exception) {
                     _state.value = ArticleState.Error(e.message ?: "Unknown error")
                 }
             }else{
-                val articles = articleRepository.getCachedArticles()
+                val articles = getCachedArticlesUseCase.invoke()
                 articles.collectLatest {
                     _state.value = ArticleState.Success(it)
                 }
